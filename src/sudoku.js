@@ -230,6 +230,42 @@ class Sudoku {
 
   // Retorna todas as possíveis soluções
   getSolutions() {}
+
+  test(solutions = []) {
+    if (this.isCompleted()) {
+      console.log('Completed');
+      solutions.push(this.grid);
+      return;
+    }
+
+    let position = this.nextMissing();
+    console.log('get position: ', position);
+
+    let availableNumbers = this.availableNumbers(position[0], position[1]);
+    console.log('get available numbers:', availableNumbers);
+
+    console.log('check available numbers length:', availableNumbers.length);
+    if (availableNumbers.length == 0) {
+      console.log('Impossible');
+      return;
+    }
+
+    console.log('Loop available numbers');
+    for (var i = 0; i < availableNumbers.length; i++) {
+      let sudokuClone = new Sudoku(this.clone(this.grid));
+      console.log('Chosen available number:', availableNumbers[i]);
+      sudokuClone.grid[position[0]][position[1]] = availableNumbers[i];
+
+      console.log('Call clone.test');
+      sudokuClone.test(solutions);
+    }
+
+    return solutions.length;
+  }
+
+  clone(object) {
+    return JSON.parse(JSON.stringify(object));
+  }
 }
 
 export default Sudoku;
