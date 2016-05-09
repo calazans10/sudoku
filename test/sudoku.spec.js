@@ -371,139 +371,16 @@ describe('Sudoku', () => {
     it('should be a Function', () => {
       expect(sudoku1.getSolutions).to.be.a('function');
     });
-  });
-  //
-  // describe('#stepBack', () => {
-  //   it('should be a Function 2', () => {
-  //     let states = [
-  //       {
-  //         grid:[
-  //           [5, 3, 0, 0, 7, 0, 0, 0, 0],
-  //           [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //           [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //           [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //           [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //           [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //           [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //           [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //           [0, 0, 0, 0, 8, 0, 0, 7, 9]
-  //         ],
-  //         position: [0, 2],
-  //         availableNumberIndex: 0
-  //       },
-  //       {
-  //         grid:[
-  //           [5, 3, 1, 0, 7, 0, 0, 0, 0],
-  //           [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //           [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //           [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //           [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //           [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //           [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //           [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //           [0, 0, 0, 0, 8, 0, 0, 7, 9]
-  //         ],
-  //         position: [0, 3],
-  //         availableNumberIndex: 0
-  //       },
-  //       {
-  //         grid:[
-  //           [5, 3, 1, 2, 7, 0, 0, 0, 0],
-  //           [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //           [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //           [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //           [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //           [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //           [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //           [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //           [0, 0, 0, 0, 8, 0, 0, 7, 9]
-  //         ],
-  //         position: [0, 5],
-  //         availableNumberIndex: 0
-  //       },
-  //       {
-  //         grid:[
-  //           [5, 3, 1, 2, 7, 4, 0, 0, 0],
-  //           [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //           [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //           [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //           [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //           [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //           [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //           [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //           [0, 0, 0, 0, 8, 0, 0, 7, 9]
-  //         ],
-  //         position: [0, 6],
-  //         availableNumberIndex: 0
-  //       },
-  //       {
-  //         grid:[
-  //           [5, 3, 1, 2, 7, 4, 8, 0, 0],
-  //           [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //           [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //           [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //           [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //           [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //           [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //           [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //           [0, 0, 0, 0, 8, 0, 0, 7, 9]
-  //         ],
-  //         position: [0, 7],
-  //         availableNumberIndex: 0
-  //       },
-  //       {
-  //         grid:[
-  //           [5, 3, 1, 2, 7, 4, 8, 9, 0],
-  //           [6, 0, 0, 1, 9, 5, 0, 0, 0],
-  //           [0, 9, 8, 0, 0, 0, 0, 6, 0],
-  //           [8, 0, 0, 0, 6, 0, 0, 0, 3],
-  //           [4, 0, 0, 8, 0, 3, 0, 0, 1],
-  //           [7, 0, 0, 0, 2, 0, 0, 0, 6],
-  //           [0, 6, 0, 0, 0, 0, 2, 8, 0],
-  //           [0, 0, 0, 4, 1, 9, 0, 0, 5],
-  //           [0, 0, 0, 0, 8, 0, 0, 7, 9]
-  //         ],
-  //         position: [0, 8],
-  //         availableNumberIndex: 0
-  //       }
-  //     ];
-  //
-  //     sudoku2.grid = states;
-  //     expect(sudoku1.stepBack()).to.be.equal(true);
-  //   });
-  // });
 
-  // describe('#resolve', () => {
-  //   it('should be a Function', () => {
-  //     expect(sudoku1.resolve).to.be.a('function');
-  //   });
-
-  //   it('should return the solution from the given grid', () => {
-  //     sudoku1.grid = gridIncomplete3;
-  //     expect(sudoku1.resolve()).to.deep.equal(gridComplete1);
-  //   });
-
-  //   it('should return the solution from the given grid 2', () => {
-  //     sudoku2.grid = gridIncomplete1;
-  //     expect(sudoku2.resolve()).to.deep.equal(gridComplete1);
-  //   });
-  // });
-
-  describe('#test', () => {
-    // it('should be a Function', () => {
-    //   expect(sudoku1.resolve).to.be.a('function');
-    // });
-    //
-    // it('should return the solution from the given grid', () => {
-    //   sudoku1.grid = gridIncomplete3;
-    //   expect(sudoku1.resolve()).to.deep.equal(gridComplete1);
-    // });
-    //
-    it('should return the solution from the given grid 2', () => {
+    it('should return the number of solutions from the given grid', () => {
       sudoku2.grid = gridIncomplete1;
-      // expect(sudoku2.resolve()).to.deep.equal(gridComplete1);
-      console.log(sudoku2.test());
-      expect(true).to.equal(true);
+      expect(sudoku2.getSolutions()).to.equal(1);
     }).timeout(10000);
+  });
+
+  describe('#resolve', () => {
+    it('should be a Function', () => {
+      expect(sudoku1.resolve).to.be.a('function');
+    });
   });
 });

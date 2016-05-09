@@ -24,6 +24,10 @@ class Sudoku {
               .concat(arr2.filter(x => arr1.indexOf(x) === -1));
   }
 
+  clone(object) {
+    return JSON.parse(JSON.stringify(object));
+  }
+
   permutation(i, j) {
     let permutation = [];
 
@@ -37,38 +41,30 @@ class Sudoku {
   }
 
   lines() {
-    // let lines = [];
-    // for (let x in this.grid) {
-    //   lines.push(this.permutation(x, this.grid.length - 1));
-    // }
-    // return lines;
-
     let lines = [];
-    for (var x = 0; x < this.grid.length; x++) {
+
+    for (let x = 0; x < this.grid.length; x++) {
       let line = [];
-      for (var y = 0; y < this.grid.length; y++) {
+      for (let y = 0; y < this.grid.length; y++) {
         line.push([x, y]);
       }
       lines.push(line);
     }
+
     return lines;
   }
 
   columns() {
-    // let columns = [];
-    // for (let x in this.grid) {
-    //   columns.push(this.permutation(this.grid.length - 1, x));
-    // }
-    // return columns;
-
     let columns = [];
-    for (var x = 0; x < this.grid.length; x++) {
+
+    for (let x = 0; x < this.grid.length; x++) {
       let column = [];
-      for (var y = 0; y < this.grid.length; y++) {
+      for (let y = 0; y < this.grid.length; y++) {
         column.push([y, x]);
       }
       columns.push(column);
     }
+
     return columns;
   }
 
@@ -152,8 +148,8 @@ class Sudoku {
   }
 
   nextMissing() {
-    for (var x = 0; x < this.grid.length; x++) {
-      for (var y = 0; y < this.grid.length; y++) {
+    for (let x = 0; x < this.grid.length; x++) {
+      for (let y = 0; y < this.grid.length; y++) {
         if (this.grid[x][y] === 0) {
           return [x, y];
         }
@@ -175,97 +171,30 @@ class Sudoku {
     return this.arrayIntersection(numbers, relatedNumbers);
   }
 
-  stepBack(states) {
-    console.log('tamanho state: ', states.length);
-
-    if (states.length === 0) {
-      throw(`impossible to solve: ${lastState.position}}`);
-    }
-
-    let lastState = states[states.length - 1];
-    this.grid = lastState.grid;
-    let availableNumbers = this.availableNumbers(lastState.position[0], lastState.position[1]);
-    let availableNumberIndex = lastState.availableNumberIndex;
-
-    if (availableNumbers[lastState.availableNumberIndex + 1]) {
-      availableNumberIndex = lastState.availableNumberIndex + 1;
-      return true;
-    } else {
-      console.log('remove...');
-      states.pop();
-      return this.stepBack(states);
-    }
-  }
-
-  resolve() {
-    let states = [];
-    let globalIndex = 0;
-
-    while (!this.isCompleted()) {
-      let position = this.nextMissing();
-      let availableNumbers = this.availableNumbers(position[0], position[1]);
-      let availableNumberIndex = globalIndex;
-      console.log('posições', position[0], position[1], availableNumbers);
-
-      if (!position || availableNumbers.length === 0) {
-        this.stepBack(states);
-        let lastState = states[states.length - 1];
-        globalIndex = lastState.availableNumberIndex;
-        // console.log(position[0], position[1], '-', globalIndex);
-      } else {
-        globalIndex = 0;
-
-        states.push(JSON.parse(JSON.stringify({
-          grid: this.grid,
-          position: position,
-          availableNumberIndex: availableNumberIndex
-        })));
-
-        this.grid[position[0]][position[1]] = availableNumbers[availableNumberIndex];
-      }
-    }
-    console.log(states);
-    return this.grid;
-  }
-
-  // Retorna todas as possíveis soluções
-  getSolutions() {}
-
-  test(solutions = []) {
+  getSolutions(solutions = []) {
     if (this.isCompleted()) {
-      console.log('Completed');
       solutions.push(this.grid);
       return;
     }
 
     let position = this.nextMissing();
-    console.log('get position: ', position);
 
     let availableNumbers = this.availableNumbers(position[0], position[1]);
-    console.log('get available numbers:', availableNumbers);
 
-    console.log('check available numbers length:', availableNumbers.length);
     if (availableNumbers.length == 0) {
-      console.log('Impossible');
       return;
     }
 
-    console.log('Loop available numbers');
     for (var i = 0; i < availableNumbers.length; i++) {
       let sudokuClone = new Sudoku(this.clone(this.grid));
-      console.log('Chosen available number:', availableNumbers[i]);
       sudokuClone.grid[position[0]][position[1]] = availableNumbers[i];
-
-      console.log('Call clone.test');
-      sudokuClone.test(solutions);
+      sudokuClone.getSolutions(solutions);
     }
 
     return solutions.length;
   }
 
-  clone(object) {
-    return JSON.parse(JSON.stringify(object));
-  }
+  resolve() {}
 }
 
 export default Sudoku;
