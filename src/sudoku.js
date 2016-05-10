@@ -178,7 +178,6 @@ class Sudoku {
     }
 
     let position = this.nextMissing();
-
     let availableNumbers = this.availableNumbers(position[0], position[1]);
 
     if (availableNumbers.length == 0) {
@@ -191,10 +190,12 @@ class Sudoku {
       sudokuClone.getSolutions(solutions);
     }
 
-    return solutions.length;
+    return solutions;
   }
 
-  resolve() {}
+  resolve() {
+    return this.getSolutions()[0];
+  }
 }
 
 export default Sudoku;

@@ -373,9 +373,9 @@ describe('Sudoku', () => {
       expect(sudoku1.getSolutions).to.be.a('function');
     });
 
-    it('should return the number of solutions from the given grid', () => {
-      sudoku2.grid = gridIncomplete1;
-      expect(sudoku2.getSolutions()).to.equal(1);
+    it('should return all the solutions from the given grid', () => {
+      sudoku1.grid = gridIncomplete1;
+      expect(sudoku1.getSolutions()).to.deep.equal([gridComplete1]);
     }).timeout(10000);
   });
 
@@ -383,5 +383,10 @@ describe('Sudoku', () => {
     it('should be a Function', () => {
       expect(sudoku1.resolve).to.be.a('function');
     });
+
+    it('should return a solution from the given grid', () => {
+      sudoku1.grid = gridIncomplete1;
+      expect(sudoku1.resolve()).to.deep.equal(gridComplete1);
+    }).timeout(10000);
   });
 });
