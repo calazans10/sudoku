@@ -28,39 +28,10 @@ class InvalidBoardError extends Error {
 }
 
 class Position {
-  constructor(x, y, board, region) {
+  constructor(x, y, board) {
     this.x = x;
     this.y = y;
     this.board = board;
-    this.region = region;
-  }
-
-  related(x, y) {
-    return this.relatedByLine(x, y).concat(this.relatedByColumn(x, y), this.relatedBySquare(x, y));
-  }
-
-  relatedByLine(x, y) {
-    return this.board.lines()[x];
-  }
-
-  relatedByColumn(x, y) {
-    return this.board.columns()[y];
-  }
-
-  relatedBySquare(x, y) {
-    let sqrt = this.board.squareRoot();
-    let pivot = this.relatedPivot(x, y);
-    let index = pivot[1] / sqrt + pivot[0];
-    return this.squares()[index];
-  }
-
-  relatedPivot(x, y) {
-    let sqrt = this.board.squareRoot();
-    return [x - (x % sqrt), y - (y % sqrt)];
-  }
-
-  get value() {
-    return this.board[position.x][position.y];
   }
 
   // verifica se é um número dentro do range do board
@@ -78,6 +49,34 @@ class Position {
 
     return this.arrayIntersection(numbers, relatedNumbers);
   }
+
+  get related() {
+    return this.relatedByLine(x, y).concat(this.relatedByColumn(x, y), this.relatedBySquare(x, y));
+  }
+
+  get relatedByLine() {
+    return this.board.lines()[x];
+  }
+
+  get relatedByColumn() {
+    return this.board.columns()[y];
+  }
+
+  get relatedBySquare() {
+    let sqrt = this.board.squareRoot();
+    let pivot = this.relatedPivot(x, y);
+    let index = pivot[1] / sqrt + pivot[0];
+    return this.squares()[index];
+  }
+
+  get relatedPivot() {
+    let sqrt = this.board.squareRoot();
+    return [x - (x % sqrt), y - (y % sqrt)];
+  }
+
+  get value() {
+    return this.board[position.x][position.y];
+  }
 }
 
 class Region {
@@ -89,6 +88,8 @@ class Region {
   // loop nas posições e chama invalid das posições em cada uma delas
   // se não tem nenhuma posição repetida nele
   isValid() {}
+
+  isCompleted() {}
 }
 
 class Board {
@@ -103,8 +104,18 @@ class Board {
   // loop nas regiões e chama invalid das regiões em cada uma delas
   isValid() {}
 
-  resolve() {
-    return this.getSolutions()[0];
+  isCompleted() {
+    // verificar se não é válido, retorna falso quando isso acontecer
+    for (let position of this.positions()) {
+      if (this.getValueByPosition(position) === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  getSolution() {
+    return this.solutions()[0];
   }
 
   getSolutions(solutions = []) {
@@ -123,20 +134,10 @@ class Board {
     for (let i = 0; i < availableNumbers.length; i++) {
       let sudokuClone = this.clone();
       sudokuClone.board[position[0]][position[1]] = availableNumbers[i];
-      sudokuClone.getSolutions(solutions);
+      sudokuClone.solutions(solutions);
     }
 
     return solutions;
-  }
-
-  isCompleted() {
-    // verificar se não é válido, retorna falso quando isso acontecer
-    for (let position of this.positions()) {
-      if (this.getValueByPosition(position) === 0) {
-        return false;
-      }
-    }
-    return true;
   }
 
   nextMissing() {
