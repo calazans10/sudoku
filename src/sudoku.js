@@ -1,8 +1,34 @@
 'use strict';
 
 class Sudoku {
-  constructor (grid) {
-    this.grid = grid;
+  constructor (board = []) {
+    this.board = board;
+
+    if (this.board.length && !this.isValidBoard()) {
+      throw new Error('Error!');
+    }
+  }
+
+  numbers() {
+    return [...Array(this.board.length + 1).keys()];
+  }
+
+  squareRoot() {
+    return Math.sqrt(this.board.length);
+  }
+
+  isValidBoard() {
+    let numbers = this.numbers();
+    let positions = this.permutation(this.board.length - 1 , this.board.length - 1);
+
+    for (let position of positions) {
+      if (typeof this.board[position[0]][position[1]] !== 'number' ||
+          numbers.indexOf(this.board[position[0]][position[1]]) === -1) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   arrayIntersection(arr1, arr2) {
@@ -29,10 +55,10 @@ class Sudoku {
 
   pivots() {
     let pivots = [];
-    let sqrt = Math.sqrt(this.grid.length);
+    let sqrt = this.squareRoot();
 
-    for (let i = 0; i < this.grid.length; i += sqrt) {
-      for (let j = 0; j < this.grid.length; j += sqrt) {
+    for (let i = 0; i < this.board.length; i += sqrt) {
+      for (let j = 0; j < this.board.length; j += sqrt) {
         pivots.push([i, j]);
       }
     }
@@ -43,9 +69,9 @@ class Sudoku {
   lines() {
     let lines = [];
 
-    for (let i = 0; i < this.grid.length; i++) {
+    for (let i = 0; i < this.board.length; i++) {
       let line = [];
-      for (let j = 0; j < this.grid.length; j++) {
+      for (let j = 0; j < this.board.length; j++) {
         line.push([i, j]);
       }
       lines.push(line);
@@ -57,9 +83,9 @@ class Sudoku {
   columns() {
     let columns = [];
 
-    for (let i = 0; i < this.grid.length; i++) {
+    for (let i = 0; i < this.board.length; i++) {
       let column = [];
-      for (let j = 0; j < this.grid.length; j++) {
+      for (let j = 0; j < this.board.length; j++) {
         column.push([j, i]);
       }
       columns.push(column);
@@ -70,10 +96,10 @@ class Sudoku {
 
   squares() {
     let squares = [];
-    let sqrt = Math.sqrt(this.grid.length);
+    let sqrt = this.squareRoot();
 
-    for (let i = 0; i < this.grid.length; i += sqrt) {
-      for (let j = 0; j < this.grid.length; j += sqrt) {
+    for (let i = 0; i < this.board.length; i += sqrt) {
+      for (let j = 0; j < this.board.length; j += sqrt) {
         let square = [];
         for (let k = 0; k < sqrt; k++) {
           for (let l = 0; l < sqrt; l++) {
@@ -92,7 +118,7 @@ class Sudoku {
   }
 
   relatedPivot(x, y) {
-    let sqrt = Math.sqrt(this.grid.length);
+    let sqrt = this.squareRoot();
     return [x - (x % sqrt), y - (y % sqrt)];
   }
 
@@ -105,7 +131,7 @@ class Sudoku {
   }
 
   relatedBySquare(x, y) {
-    let sqrt = Math.sqrt(this.grid.length);
+    let sqrt = this.squareRoot();
     let pivot = this.relatedPivot(x, y);
     let index = pivot[1] / sqrt + pivot[0];
     return this.squares()[index];
@@ -116,9 +142,9 @@ class Sudoku {
   }
 
   isCompleted() {
-    for (let x in this.grid) {
-      for (let y in this.grid) {
-        if (this.grid[x][y] === 0) {
+    for (let x in this.board) {
+      for (let y in this.board) {
+        if (this.board[x][y] === 0) {
           return false;
         }
       }
@@ -139,7 +165,7 @@ class Sudoku {
   isValidRegion(array) {
     for (let i = 0; i < array.length; i++) {
       for (let j = i + 1; j < array.length; j++) {
-        if (this.grid[array[i][0]][array[i][1]] === this.grid[array[j][0]][array[j][1]]) {
+        if (this.board[array[i][0]][array[i][1]] === this.board[array[j][0]][array[j][1]]) {
           return false;
         }
       }
@@ -148,9 +174,9 @@ class Sudoku {
   }
 
   nextMissing() {
-    for (let i = 0; i < this.grid.length; i++) {
-      for (let j = 0; j < this.grid.length; j++) {
-        if (this.grid[i][j] === 0) {
+    for (let i = 0; i < this.board.length; i++) {
+      for (let j = 0; j < this.board.length; j++) {
+        if (this.board[i][j] === 0) {
           return [i, j];
         }
       }
@@ -159,12 +185,12 @@ class Sudoku {
   }
 
   availableNumbers(x, y) {
-    let numbers = [...Array(this.grid.length + 1).keys()].slice(1);
+    let numbers = this.numbers().slice(1);
     let relatedNumbers = [];
 
     this.related(x, y).forEach(position => {
-      if (this.grid[position[0]][position[1]] !== 0) {
-        relatedNumbers.push(this.grid[position[0]][position[1]]);
+      if (this.board[position[0]][position[1]] !== 0) {
+        relatedNumbers.push(this.board[position[0]][position[1]]);
       }
     });
 
@@ -173,7 +199,7 @@ class Sudoku {
 
   getSolutions(solutions = []) {
     if (this.isCompleted()) {
-      solutions.push(this.grid);
+      solutions.push(this.board);
       return;
     }
 
@@ -185,8 +211,8 @@ class Sudoku {
     }
 
     for (let i = 0; i < availableNumbers.length; i++) {
-      let sudokuClone = new Sudoku(this.cloneObject(this.grid));
-      sudokuClone.grid[position[0]][position[1]] = availableNumbers[i];
+      let sudokuClone = new Sudoku(this.cloneObject(this.board));
+      sudokuClone.board[position[0]][position[1]] = availableNumbers[i];
       sudokuClone.getSolutions(solutions);
     }
 
