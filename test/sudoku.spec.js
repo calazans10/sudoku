@@ -1,6 +1,6 @@
 'use strict';
 
-import Board from '../src/sudoku.js';
+import Board from '../src/board.js';
 import boardFixtures from './fixtures/boards.js';
 import chai from 'chai';
 

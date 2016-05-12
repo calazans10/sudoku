@@ -72,6 +72,15 @@ let board16x16Completed = [
   [ 8, 11, 12,  2, 14,  3, 10,  9, 13, 15,  6,  7, 16,  1,  5,  4]
 ];
 
+// let Board {
+//   '9x9': {
+//     'completed': {}
+//     'incompleted': {},
+//     'invalid': {}
+//     'missing': {},
+//   }
+// }
+
 export default {
   board9x9Incompleted,
   board9x9MissingOneValue,

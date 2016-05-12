@@ -1,5 +1,23 @@
 'use strict';
 
+function arrayIntersection(arr1, arr2) {
+  return arr1
+    .filter(value => arr2.indexOf(value) === -1)
+    .concat(arr2.filter(value => arr1.indexOf(value) === -1));
+}
+
+function permutation(i, j) {
+  let permutation = [];
+
+  for (var k = 0; k <= i; k++) {
+    for (var l = 0; l <= j; l++) {
+      permutation.push([k, l]);
+    }
+  }
+
+  return permutation;
+}
+
 class InvalidBoardError extends Error {
   constructor(message) {
     super();
@@ -10,24 +28,70 @@ class InvalidBoardError extends Error {
 }
 
 class Position {
-  constructor(x, y, board) {
+  constructor(x, y, board, region) {
     this.x = x;
     this.y = y;
     this.board = board;
+    this.region = region;
   }
-}
 
-class Board {
-  getValueByPosition(position) {
+  related(x, y) {
+    return this.relatedByLine(x, y).concat(this.relatedByColumn(x, y), this.relatedBySquare(x, y));
+  }
+
+  relatedByLine(x, y) {
+    return this.board.lines()[x];
+  }
+
+  relatedByColumn(x, y) {
+    return this.board.columns()[y];
+  }
+
+  relatedBySquare(x, y) {
+    let sqrt = this.board.squareRoot();
+    let pivot = this.relatedPivot(x, y);
+    let index = pivot[1] / sqrt + pivot[0];
+    return this.squares()[index];
+  }
+
+  relatedPivot(x, y) {
+    let sqrt = this.board.squareRoot();
+    return [x - (x % sqrt), y - (y % sqrt)];
+  }
+
+  get value() {
     return this.board[position.x][position.y];
   }
 
-  positions() {
-    return this
-      .permutation(this.board.length - 1, this.board.length - 1)
-      .map(arr => new Position(arr[0], arr[1]));
+  // verifica se é um número dentro do range do board
+  isvalid() {}
+
+  availableNumbers(x, y) {
+    let numbers = this.numbers().slice(1);
+    let relatedNumbers = [];
+
+    this.related(x, y).forEach(position => {
+      if (this.board[position[0]][position[1]] !== 0) {
+        relatedNumbers.push(this.board[position[0]][position[1]]);
+      }
+    });
+
+    return this.arrayIntersection(numbers, relatedNumbers);
+  }
+}
+
+class Region {
+  constructor(positions, board) {
+    this.positions = positions;
+    this.board = board;
   }
 
+  // loop nas posições e chama invalid das posições em cada uma delas
+  // se não tem nenhuma posição repetida nele
+  isValid() {}
+}
+
+class Board {
   constructor(board = []) {
     this.board = board;
 
@@ -35,6 +99,9 @@ class Board {
       throw new InvalidBoardError('Board is invalid.');
     }
   }
+
+  // loop nas regiões e chama invalid das regiões em cada uma delas
+  isValid() {}
 
   resolve() {
     return this.getSolutions()[0];
@@ -63,18 +130,9 @@ class Board {
   }
 
   isCompleted() {
+    // verificar se não é válido, retorna falso quando isso acontecer
     for (let position of this.positions()) {
       if (this.getValueByPosition(position) === 0) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  isValid() {
-    let regions = this.regions();
-    for (let x in regions) {
-      if (!this.isValidRegion(regions[x])) {
         return false;
       }
     }
@@ -92,20 +150,17 @@ class Board {
     return null;
   }
 
-  availableNumbers(x, y) {
-    let numbers = this.numbers().slice(1);
-    let relatedNumbers = [];
-
-    this.related(x, y).forEach(position => {
-      if (this.board[position[0]][position[1]] !== 0) {
-        relatedNumbers.push(this.board[position[0]][position[1]]);
-      }
-    });
-
-    return this.arrayIntersection(numbers, relatedNumbers);
+  clone() {
+    return new Board(JSON.parse(JSON.stringify(this.board)));
   }
 
-  lines() {
+  get positions() {
+    return this
+      .permutation(this.board.length - 1, this.board.length - 1)
+      .map(arr => new Position(arr[0], arr[1]));
+  }
+
+  get lines() {
     let lines = [];
 
     for (let i = 0; i < this.board.length; i++) {
@@ -119,7 +174,7 @@ class Board {
     return lines;
   }
 
-  columns() {
+  get columns() {
     let columns = [];
 
     for (let i = 0; i < this.board.length; i++) {
@@ -133,7 +188,7 @@ class Board {
     return columns;
   }
 
-  squares() {
+  get squares() {
     let squares = [];
     let sqrt = this.squareRoot();
 
@@ -152,35 +207,11 @@ class Board {
     return squares;
   }
 
-  regions() {
+  get regions() {
     return this.lines().concat(this.columns(), this.squares());
   }
 
-  related(x, y) {
-    return this.relatedByLine(x, y).concat(this.relatedByColumn(x, y), this.relatedBySquare(x, y));
-  }
-
-  relatedByLine(x, y) {
-    return this.lines()[x];
-  }
-
-  relatedByColumn(x, y) {
-    return this.columns()[y];
-  }
-
-  relatedBySquare(x, y) {
-    let sqrt = this.squareRoot();
-    let pivot = this.relatedPivot(x, y);
-    let index = pivot[1] / sqrt + pivot[0];
-    return this.squares()[index];
-  }
-
-  relatedPivot(x, y) {
-    let sqrt = this.squareRoot();
-    return [x - (x % sqrt), y - (y % sqrt)];
-  }
-
-  pivots() {
+  get pivots() {
     let pivots = [];
     let sqrt = this.squareRoot();
 
@@ -193,58 +224,12 @@ class Board {
     return pivots;
   }
 
-  arrayIntersection(arr1, arr2) {
-    return arr1
-      .filter(value => arr2.indexOf(value) === -1)
-      .concat(arr2.filter(value => arr1.indexOf(value) === -1));
-  }
-
-  permutation(i, j) {
-    let permutation = [];
-
-    for (var k = 0; k <= i; k++) {
-      for (var l = 0; l <= j; l++) {
-        permutation.push([k, l]);
-      }
-    }
-
-    return permutation;
-  }
-
-  numbers() {
+  get numbers() {
     return [...Array(this.board.length + 1).keys()];
   }
 
-  squareRoot() {
+  get squareRoot() {
     return Math.sqrt(this.board.length);
-  }
-
-  clone() {
-    return new Board(JSON.parse(JSON.stringify(this.board)));
-  }
-
-  isValidBoard() {
-    let numbers = this.numbers();
-    let positions = this.permutation(this.board.length - 1 , this.board.length - 1);
-
-    for (let position of positions) {
-      if (numbers.indexOf(this.board[position[0]][position[1]]) === -1) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  isValidRegion(array) {
-    for (let i = 0; i < array.length; i++) {
-      for (let j = i + 1; j < array.length; j++) {
-        if (this.board[array[i][0]][array[i][1]] === this.board[array[j][0]][array[j][1]]) {
-          return false;
-        }
-      }
-    }
-    return true;
   }
 }
 
