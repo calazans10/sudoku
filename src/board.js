@@ -1,117 +1,15 @@
 'use strict';
 
-function arrayIntersection(arr1, arr2) {
-  return arr1
-    .filter(value => arr2.indexOf(value) === -1)
-    .concat(arr2.filter(value => arr1.indexOf(value) === -1));
-}
-
-function permutation(i, j) {
-  let permutation = [];
-
-  for (var k = 0; k <= i; k++) {
-    for (var l = 0; l <= j; l++) {
-      permutation.push([k, l]);
-    }
-  }
-
-  return permutation;
-}
-
-class InvalidBoardError extends Error {
-  constructor(message) {
-    super();
-    this.name = 'InvalidBoardError';
-    this.message = message;
-    this.stack = new Error().stack; // Optional
-  }
-}
-
-class Position {
-  constructor(x, y, board) {
-    this.x = x;
-    this.y = y;
-    this.board = board;
-  }
-
-  // verifica se é um número dentro do range do board
-  isvalid() {}
-
-  availableNumbers(x, y) {
-    let numbers = this.numbers().slice(1);
-    let relatedNumbers = [];
-
-    this.related(x, y).forEach(position => {
-      if (this.board[position[0]][position[1]] !== 0) {
-        relatedNumbers.push(this.board[position[0]][position[1]]);
-      }
-    });
-
-    return this.arrayIntersection(numbers, relatedNumbers);
-  }
-
-  get related() {
-    return this.relatedByLine(x, y).concat(this.relatedByColumn(x, y), this.relatedBySquare(x, y));
-  }
-
-  get relatedByLine() {
-    return this.board.lines()[x];
-  }
-
-  get relatedByColumn() {
-    return this.board.columns()[y];
-  }
-
-  get relatedBySquare() {
-    let sqrt = this.board.squareRoot();
-    let pivot = this.relatedPivot(x, y);
-    let index = pivot[1] / sqrt + pivot[0];
-    return this.squares()[index];
-  }
-
-  get relatedPivot() {
-    let sqrt = this.board.squareRoot();
-    return [x - (x % sqrt), y - (y % sqrt)];
-  }
-
-  get value() {
-    return this.board[position.x][position.y];
-  }
-}
-
-class Region {
-  constructor(positions, board) {
-    this.positions = positions;
-    this.board = board;
-  }
-
-  // loop nas posições e chama invalid das posições em cada uma delas
-  // se não tem nenhuma posição repetida nele
-  isValid() {}
-
-  isCompleted() {}
-}
+import Position from './position';
+import permutation from './modules/permutation';
 
 class Board {
   constructor(board = []) {
     this.board = board;
 
-    if (this.board.length && !this.isValidBoard()) {
-      throw new InvalidBoardError('Board is invalid.');
-    }
-  }
-
-  // loop nas regiões e chama invalid das regiões em cada uma delas
-  isValid() {}
-
-  isCompleted() {
-    // verificar se não é válido, retorna falso quando isso acontecer
-    for (let position of this.positions()) {
-      if (this.getValueByPosition(position) === 0) {
-        return false;
-      }
-    }
-    return true;
+    // if (this.board.length && !this.isValidBoard()) {
+    //   throw new InvalidBoardError('Board is invalid.');
+    // }
   }
 
   getSolution() {
@@ -151,13 +49,25 @@ class Board {
     return null;
   }
 
+  // loop nas regiões e chama invalid das regiões em cada uma delas
+  isValid() {}
+
+  isCompleted() {
+    // verificar se não é válido, retorna falso quando isso acontecer
+    for (let position of this.positions()) {
+      if (this.getValueByPosition(position) === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   clone() {
     return new Board(JSON.parse(JSON.stringify(this.board)));
   }
 
   get positions() {
-    return this
-      .permutation(this.board.length - 1, this.board.length - 1)
+    return permutation(this.board.length - 1, this.board.length - 1)
       .map(arr => new Position(arr[0], arr[1]));
   }
 
@@ -191,13 +101,12 @@ class Board {
 
   get squares() {
     let squares = [];
-    let sqrt = this.squareRoot();
 
-    for (let i = 0; i < this.board.length; i += sqrt) {
-      for (let j = 0; j < this.board.length; j += sqrt) {
+    for (let i = 0; i < this.board.length; i += this.squareRoot) {
+      for (let j = 0; j < this.board.length; j += this.squareRoot) {
         let square = [];
-        for (let k = 0; k < sqrt; k++) {
-          for (let l = 0; l < sqrt; l++) {
+        for (let k = 0; k < this.squareRoot; k++) {
+          for (let l = 0; l < this.squareRoot; l++) {
             square.push([i + k, j + l]);
           }
         }
@@ -209,15 +118,14 @@ class Board {
   }
 
   get regions() {
-    return this.lines().concat(this.columns(), this.squares());
+    return this.lines.concat(this.columns, this.squares);
   }
 
   get pivots() {
     let pivots = [];
-    let sqrt = this.squareRoot();
 
-    for (let i = 0; i < this.board.length; i += sqrt) {
-      for (let j = 0; j < this.board.length; j += sqrt) {
+    for (let i = 0; i < this.board.length; i += this.squareRoot) {
+      for (let j = 0; j < this.board.length; j += this.squareRoot) {
         pivots.push([i, j]);
       }
     }
