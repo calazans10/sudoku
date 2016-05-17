@@ -8,6 +8,30 @@ import chai from 'chai';
 let expect = chai.expect;
 
 describe('Position', () => {
+  describe('#isValid', () => {
+    it('should be a Function', () => {
+      expect(Position.prototype.isValid).to.be.a('function');
+    });
+
+    it('should return true when the position is valid', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      let position = new Position(0, 7, board);
+      expect(position.isValid()).to.equal(true);
+    });
+
+    it('should return false when the position on the board is out range', () => {
+      let board = new Board(BoardFixture['16x16'].invalid);
+      let position = new Position(7, 14, board);
+      expect(position.isValid()).to.equal(false);
+    });
+
+    it('should return false when the position on the board is not a number', () => {
+      let board = new Board(BoardFixture['9x9'].invalid);
+      let position = new Position(3, 3, board);
+      expect(position.isValid()).to.equal(false);
+    });
+  });
+
   describe('#availableNumbers', () => {
     it('should be a Function', () => {
       expect(Position.prototype.availableNumbers).to.be.a('function');

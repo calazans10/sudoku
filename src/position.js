@@ -9,8 +9,9 @@ class Position {
     this.board = board;
   }
 
-  // verifica se é um número dentro do range do board
-  isvalid() {}
+  isValid() {
+    return this.board.numbers.indexOf(this.value) !== -1;
+  }
 
   availableNumbers() {
     let relatedNumbers = [];
@@ -20,7 +21,7 @@ class Position {
         relatedNumbers.push(this.board.board[position[0]][position[1]]);
       }
     });
-    
+
     return arrayIntersection(this.board.numbers.slice(1), relatedNumbers);
   }
 

@@ -54,8 +54,8 @@ class Board {
 
   isCompleted() {
     // verificar se não é válido, retorna falso quando isso acontecer
-    for (let position of this.positions()) {
-      if (this.getValueByPosition(position) === 0) {
+    for (let position of this.positions) {
+      if (position.value === 0) {
         return false;
       }
     }
@@ -68,7 +68,7 @@ class Board {
 
   get positions() {
     return permutation(this.board.length - 1, this.board.length - 1)
-      .map(arr => new Position(arr[0], arr[1]));
+      .map(arr => new Position(arr[0], arr[1], this));
   }
 
   get lines() {
