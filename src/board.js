@@ -1,6 +1,7 @@
 'use strict';
 
 import Position from './position';
+import Region from './region';
 import permutation from './modules/permutation';
 
 class Board {
@@ -50,7 +51,14 @@ class Board {
   }
 
   // loop nas regiões e chama invalid das regiões em cada uma delas
-  isValid() {}
+  isValid() {
+    for (let regiao of this.regioes) {
+      if (!regiao.isValid()) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   isCompleted() {
     // verificar se não é válido, retorna falso quando isso acontecer
@@ -64,6 +72,22 @@ class Board {
 
   clone() {
     return new Board(JSON.parse(JSON.stringify(this.board)));
+  }
+
+  get regioes() {
+    let regioes = [];
+
+    for (let i = 0; i < this.regions.length; i++) {
+      let positions = [];
+
+      for (let j = 0; j < this.regions[i].length; j++) {
+        positions.push(new Position(this.regions[i][j][0], this.regions[i][j][1], this));
+      }
+
+      regioes.push(new Region(positions, this));
+    }
+
+    return regioes;
   }
 
   get positions() {

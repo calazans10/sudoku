@@ -54,30 +54,32 @@ describe('Board', () => {
       expect(board.nextMissing()).to.be.null;
     });
   });
-  //
-  // describe('#isValid', () => {
-  //   it('should be a Function', () => {
-  //     expect(sudoku1.isValid).to.be.a('function');
-  //   });
-  //
-  //   it('should return true when the board is valid', () => {
-  //     sudoku1.board = boardComplete1;
-  //     expect(sudoku1.isValid()).to.equal(true);
-  //
-  //     sudoku2.board = boardComplete2;
-  //     expect(sudoku2.isValid()).to.equal(true);
-  //   });
-  //
-  //   it('should return false when the board is invalid', () => {
-  //     sudoku1.board = boardComplete1;
-  //     sudoku1.board[1][1] = 5;
-  //     expect(sudoku1.isValid()).to.equal(false);
-  //
-  //     sudoku2.board = boardComplete2;
-  //     sudoku2.board[2][2] = 5;
-  //     expect(sudoku2.isValid()).to.equal(false);
-  //   });
-  // });
+
+  describe('#isValid', () => {
+    it('should be a Function', () => {
+      expect(Board.prototype.isValid).to.be.a('function');
+    });
+
+    it('should return true when the board 9x9 is valid', () => {
+      let board = new Board(BoardFixture['9x9'].completed);
+      expect(board.isValid()).to.equal(true);
+    });
+
+    it('should return true when the board 16x16 is valid', () => {
+      let board = new Board(BoardFixture['16x16'].completed);
+      expect(board.isValid()).to.equal(true);
+    });
+
+    it('should return false when the board 9x9 is invalid', () => {
+      let board = new Board(BoardFixture['9x9'].invalid);
+      expect(board.isValid()).to.equal(false);
+    });
+
+    it('should return false when the board 16x16 is invalid', () => {
+      let board = new Board(BoardFixture['16x16'].invalid);
+      expect(board.isValid()).to.equal(false);
+    });
+  });
 
   describe('#isCompleted', () => {
     it('should be a Function', () => {
