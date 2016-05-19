@@ -3,6 +3,7 @@
 import Position from './position';
 import Region from './region';
 import permutation from './modules/permutation';
+import _ from 'lodash';
 
 class Board {
   constructor(board = []) {
@@ -31,7 +32,7 @@ class Board {
     }
 
     for (let i = 0; i < availableNumbers.length; i++) {
-      let sudokuClone = this.clone();
+      let sudokuClone = _.clone(this);
       sudokuClone.board[position[0]][position[1]] = availableNumbers[i];
       sudokuClone.solutions(solutions);
     }
@@ -66,10 +67,6 @@ class Board {
       }
     }
     return true;
-  }
-
-  clone() {
-    return new Board(JSON.parse(JSON.stringify(this.board)));
   }
 
   get positions() {

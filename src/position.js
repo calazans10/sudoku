@@ -9,10 +9,6 @@ class Position {
     this.board = board;
   }
 
-  isValid() {
-    return this.board.numbers.indexOf(this.value) !== -1;
-  }
-
   availableNumbers() {
     let relatedNumbers = [];
 
@@ -23,6 +19,10 @@ class Position {
     });
 
     return arrayIntersection(this.board.numbers.slice(1), relatedNumbers);
+  }
+
+  isValid() {
+    return this.board.numbers.indexOf(this.value) !== -1;
   }
 
   get related() {
@@ -43,8 +43,11 @@ class Position {
   }
 
   get relatedPivot()     {
-    return new Position(this.x - (this.x % this.board.squareRoot),
-                        this.y - (this.y % this.board.squareRoot), this.board);
+    return new Position(
+      this.x - (this.x % this.board.squareRoot),
+      this.y - (this.y % this.board.squareRoot),
+      this.board
+    );
   }
 
   get value() {

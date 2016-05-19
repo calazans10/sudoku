@@ -1,7 +1,10 @@
 'use strict';
 
+
 import Board from '../src/board.js';
 import Region from '../src/region.js';
+import Position from '../src/position.js';
+import ArrayFixture from './fixtures/arrays.js';
 import BoardFixture from './fixtures/boards.js';
 import chai from 'chai';
 
@@ -21,12 +24,12 @@ describe('Board', () => {
   //
   // describe('#getSolutions', () => {
   //   it('should be a Function', () => {
-  //     expect(sudoku1.getSolutions).to.be.a('function');
+  //     expect(Board.prototype.getSolutions).to.be.a('function');
   //   });
   //
   //   it('should return all the solutions from the given board', () => {
-  //     sudoku1.board = boardIncomplete1;
-  //     expect(sudoku1.getSolutions()).to.deep.equal([boardComplete1]);
+  //     let board = new Board(BoardFixture['9x9'].incompleted);
+  //     expect(board.getSolutions()).to.deep.equal([BoardFixture['9x9'].completed]);
   //   }).timeout(10000);
   // });
   //
@@ -72,7 +75,7 @@ describe('Board', () => {
     });
 
     it('should return false when the board 9x9 is invalid', () => {
-      let board = new Board(BoardFixture['9x9'].duplicated);
+      let board = new Board(BoardFixture['9x9'].invalid);
       expect(board.isValid()).to.equal(false);
     });
 
@@ -108,100 +111,46 @@ describe('Board', () => {
     });
   });
 
-  describe('#lines', () => {
-    it('should return the lines from the board', () => {
-      let result = [
-        [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8]],
-        [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8]],
-        [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8]],
-        [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8]],
-        [[4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5], [4, 6], [4, 7], [4, 8]],
-        [[5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5], [5, 6], [5, 7], [5, 8]],
-        [[6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 6], [6, 7], [6, 8]],
-        [[7, 0], [7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 7], [7, 8]],
-        [[8, 0], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], [8, 8]]
-      ];
+  describe('#positions', () => {
+    it('should return the positions from the board', () => {
       let board = new Board(BoardFixture['9x9'].incompleted);
-      expect(board.lines.length).to.equal(9);
-    });
-  });
-
-  describe('#columns', () => {
-    it('should return the columns from the board', () => {
-      let result = [
-        [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0]],
-        [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1]],
-        [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2]],
-        [[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3]],
-        [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4]],
-        [[0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5], [8, 5]],
-        [[0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6], [8, 6]],
-        [[0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7], [7, 7], [8, 7]],
-        [[0, 8], [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8], [8, 8]]
-      ];
-      let board = new Board(BoardFixture['9x9'].incompleted);
-      expect(board.columns.length).to.equal(9);
-    });
-  });
-
-  describe('#squares', () => {
-    it('should return the squares from the board', () => {
-      let result = [
-        [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]],
-        [[0, 3], [0, 4], [0, 5], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5]],
-        [[0, 6], [0, 7], [0, 8], [1, 6], [1, 7], [1, 8], [2, 6], [2, 7], [2, 8]],
-        [[3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [4, 2], [5, 0], [5, 1], [5, 2]],
-        [[3, 3], [3, 4], [3, 5], [4, 3], [4, 4], [4, 5], [5, 3], [5, 4], [5, 5]],
-        [[3, 6], [3, 7], [3, 8], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8]],
-        [[6, 0], [6, 1], [6, 2], [7, 0], [7, 1], [7, 2], [8, 0], [8, 1], [8, 2]],
-        [[6, 3], [6, 4], [6, 5], [7, 3], [7, 4], [7, 5], [8, 3], [8, 4], [8, 5]],
-        [[6, 6], [6, 7], [6, 8], [7, 6], [7, 7], [7, 8], [8, 6], [8, 7], [8, 8]]
-      ];
-      let board = new Board(BoardFixture['9x9'].incompleted);
-      expect(board.squares.length).to.equal(9);
+      expect(board.positions).to.deep.equal(ArrayFixture.positions);
     });
   });
 
   describe('#regions', () => {
     it('should return the regions from the board', () => {
-      let result = [
-        [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8]],
-        [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8]],
-        [[2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [2, 7], [2, 8]],
-        [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8]],
-        [[4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5], [4, 6], [4, 7], [4, 8]],
-        [[5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5], [5, 6], [5, 7], [5, 8]],
-        [[6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 6], [6, 7], [6, 8]],
-        [[7, 0], [7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 7], [7, 8]],
-        [[8, 0], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 6], [8, 7], [8, 8]],
-        [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0]],
-        [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1]],
-        [[0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 2]],
-        [[0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3], [8, 3]],
-        [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4]],
-        [[0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5], [8, 5]],
-        [[0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6], [8, 6]],
-        [[0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7], [7, 7], [8, 7]],
-        [[0, 8], [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [6, 8], [7, 8], [8, 8]],
-        [[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]],
-        [[0, 3], [0, 4], [0, 5], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5]],
-        [[0, 6], [0, 7], [0, 8], [1, 6], [1, 7], [1, 8], [2, 6], [2, 7], [2, 8]],
-        [[3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [4, 2], [5, 0], [5, 1], [5, 2]],
-        [[3, 3], [3, 4], [3, 5], [4, 3], [4, 4], [4, 5], [5, 3], [5, 4], [5, 5]],
-        [[3, 6], [3, 7], [3, 8], [4, 6], [4, 7], [4, 8], [5, 6], [5, 7], [5, 8]],
-        [[6, 0], [6, 1], [6, 2], [7, 0], [7, 1], [7, 2], [8, 0], [8, 1], [8, 2]],
-        [[6, 3], [6, 4], [6, 5], [7, 3], [7, 4], [7, 5], [8, 3], [8, 4], [8, 5]],
-        [[6, 6], [6, 7], [6, 8], [7, 6], [7, 7], [7, 8], [8, 6], [8, 7], [8, 8]]
-      ];
       let board = new Board(BoardFixture['9x9'].incompleted);
-      expect(board.regions.length).to.equal(27);
+      let result = ArrayFixture.lines.concat(ArrayFixture.columns, ArrayFixture.squares);
+      expect(board.regions).to.deep.equal(result);
+    });
+  });
+
+  describe('#lines', () => {
+    it('should return the lines from the board', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      expect(board.lines).to.deep.equal(ArrayFixture.lines);
+    });
+  });
+
+  describe('#columns', () => {
+    it('should return the columns from the board', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      expect(board.columns).to.deep.equal(ArrayFixture.columns);
+    });
+  });
+
+  describe('#squares', () => {
+    it('should return the squares from the board', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      expect(board.squares).to.deep.equal(ArrayFixture.squares);
     });
   });
 
   describe('#numbers', () => {
     it('should return numbers to use on the board', () => {
-      let result = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
       let board = new Board(BoardFixture['16x16'].incompleted);
+      let result = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
       expect(board.numbers).to.deep.equal(result);
     });
   });
