@@ -17,8 +17,8 @@ class Position {
     let relatedNumbers = [];
 
     this.related.forEach(position => {
-      if (this.board.board[position[0]][position[1]] !== 0) {
-        relatedNumbers.push(this.board.board[position[0]][position[1]]);
+      if (position.value !== 0) {
+        relatedNumbers.push(position.value);
       }
     });
 
@@ -30,20 +30,21 @@ class Position {
   }
 
   get relatedByLine() {
-    return this.board.lines[this.x];
+    return this.board.lines[this.x].positions;
   }
 
   get relatedByColumn() {
-    return this.board.columns[this.y];
+    return this.board.columns[this.y].positions;
   }
 
   get relatedBySquare() {
-    let index = this.relatedPivot[1] / this.board.squareRoot + this.relatedPivot[0];
-    return this.board.squares[index];
+    let index = this.relatedPivot.y / this.board.squareRoot + this.relatedPivot.x;
+    return this.board.squares[index].positions;
   }
 
   get relatedPivot()     {
-    return [this.x - (this.x % this.board.squareRoot), this.y - (this.y % this.board.squareRoot)];
+    return new Position(this.x - (this.x % this.board.squareRoot),
+                        this.y - (this.y % this.board.squareRoot), this.board);
   }
 
   get value() {

@@ -59,7 +59,7 @@ describe('Position', () => {
     ];
     let board = new Board(BoardFixture['9x9'].incompleted);
     let position = new Position(3, 4, board);
-    expect(position.related).to.deep.equal(result);
+    expect(position.related.length).to.equal(27);
     });
   });
 
@@ -68,7 +68,7 @@ describe('Position', () => {
       let result = [[3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7], [3, 8]];
       let board = new Board(BoardFixture['9x9'].incompleted);
       let position = new Position(3, 4, board);
-      expect(position.relatedByLine).to.deep.equal(result);
+      expect(position.relatedByLine.length).to.equal(9);
     });
   });
 
@@ -77,7 +77,7 @@ describe('Position', () => {
       let result = [[0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4]];
       let board = new Board(BoardFixture['9x9'].incompleted);
       let position = new Position(3, 4, board);
-      expect(position.relatedByColumn).to.deep.equal(result);
+      expect(position.relatedByColumn.length).to.equal(9);
     });
   });
 
@@ -86,7 +86,7 @@ describe('Position', () => {
       let result = [[3, 3], [3, 4], [3, 5], [4, 3], [4, 4], [4, 5], [5, 3], [5, 4], [5, 5]];
       let board = new Board(BoardFixture['9x9'].incompleted);
       let position = new Position(3, 4, board);
-      expect(position.relatedBySquare).to.deep.equal(result);
+      expect(position.relatedBySquare.length).to.equal(9);
     });
   });
 
@@ -94,7 +94,7 @@ describe('Position', () => {
     it('should return the related pivot by the given position', () => {
       let board = new Board(BoardFixture['9x9'].incompleted);
       let position = new Position(7, 8, board);
-      expect(position.relatedPivot).to.deep.equal([6, 6]);
+      expect(position.relatedPivot).to.deep.equal(new Position(6, 6, board));
     });
   });
 

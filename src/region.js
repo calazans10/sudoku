@@ -1,23 +1,34 @@
 'use strict';
 
+import arrayIntersection from './modules/arrayIntersection';
+
 class Region {
   constructor(positions, board) {
     this.positions = positions;
     this.board = board;
   }
 
-  // loop nas posições e chama invalid das posições em cada uma delas
-  // se não tem nenhuma posição repetida nele
   isValid() {
-    for (let position of this.positions) {
-      if (!position.isValid()) {
-        return false;
+    let positions = this.positions;
+
+    for (let i = 0; i < positions.length; i++) {
+      for (let j = i + 1; j < positions.length; j++) {
+        if (
+          !positions[i].isValid() ||
+          (positions[i].value !== 0 && positions[i].value === positions[j].value)
+        ) {
+          return false;
+        }
       }
     }
+
     return true;
   }
 
-  isCompleted() {}
+  isCompleted() {
+    let numbers = this.positions.map(position => position.value);
+    return arrayIntersection(this.board.numbers.slice(1), numbers).length === 0;
+  }
 }
 
 export default Region;
