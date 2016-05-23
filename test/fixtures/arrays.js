@@ -1,8 +1,8 @@
 'use strict';
 
 import Board from '../../src/board.js';
-import Region from '../../src/region.js';
 import Position from '../../src/position.js';
+import Region from '../../src/region.js';
 import BoardFixture from './boards.js';
 
 let board = new Board(BoardFixture['9x9'].incompleted);

@@ -1,9 +1,8 @@
 'use strict';
 
-
 import Board from '../src/board.js';
-import Region from '../src/region.js';
 import Position from '../src/position.js';
+import Region from '../src/region.js';
 import ArrayFixture from './fixtures/arrays.js';
 import BoardFixture from './fixtures/boards.js';
 import chai from 'chai';
@@ -56,6 +55,23 @@ describe('Board', () => {
     it('should return null when the board 16x16 do not have missing values', () => {
       let board = new Board(BoardFixture['16x16'].completed);
       expect(board.nextMissing()).to.be.null;
+    });
+  });
+
+  describe('#isQuadratic', () => {
+    it('should be a Function', () => {
+      expect(Board.prototype.isQuadratic).to.be.a('function');
+    });
+
+    it('should return true when the board is quadratic', () => {
+      let board = new Board(BoardFixture['9x9'].completed);
+      expect(board.isQuadratic()).to.equal(true);
+    });
+
+    it('should return false when the board is not quadratic', () => {
+      let board = new Board();
+      board.board = BoardFixture['12x12'].incompleted;
+      expect(board.isValid()).to.equal(false);
     });
   });
 
@@ -170,14 +186,14 @@ describe('Board', () => {
       expect(board).to.be.an('object');
     });
 
-    it('should return an exception when the board 9x9 is invalid', () => {
+    it('should return an exception when the board is invalid', () => {
       let fn = () => { new Board(BoardFixture['9x9'].invalid); };
       expect(fn).to.throw('Board is invalid.');
     });
 
-    it('should return an exception when the board 16x16 is invalid', () => {
-      let fn = () => { new Board(BoardFixture['16x16'].invalid); };
-      expect(fn).to.throw('Board is invalid.');
+    it('should return an exception when the board is not quadratic', () => {
+      let fn = () => { new Board(BoardFixture['12x12'].incompleted); };
+      expect(fn).to.throw('Board is not quadratic.');
     });
   });
 });

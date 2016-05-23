@@ -10,6 +10,10 @@ class Board {
   constructor(board = []) {
     this.board = board;
 
+    if (this.board.length && !this.isQuadratic()) {
+      throw new InvalidBoardError('Board is not quadratic.');
+    }
+
     if (this.board.length && !this.isValid()) {
       throw new InvalidBoardError('Board is invalid.');
     }
@@ -51,6 +55,10 @@ class Board {
       }
     }
     return null;
+  }
+
+  isQuadratic() {
+    return this.squareRoot === parseInt(this.squareRoot);
   }
 
   isValid() {
