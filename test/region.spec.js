@@ -26,7 +26,8 @@ describe('Region', () => {
     });
 
     it('should return false when the region is not valid', () => {
-      let board = new Board(BoardFixture['9x9'].invalid);
+      let board = new Board();
+      board.board = BoardFixture['9x9'].invalid;
       let positions = [
         new Position(3, 3, board), new Position(3, 4, board), new Position(3, 5, board),
         new Position(4, 3, board), new Position(4, 4, board), new Position(4, 5, board),

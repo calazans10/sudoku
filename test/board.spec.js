@@ -11,28 +11,28 @@ import chai from 'chai';
 let expect = chai.expect;
 
 describe('Board', () => {
-  // describe('#getSolution', () => {
-  //   it('should be a Function', () => {
-  //     expect(Board.prototype.getSolution).to.be.a('function');
-  //   });
-  //
-  //   it('should return a solution from the given board', () => {
-  //     let board = new Board(BoardFixture['9x9'].incompleted);
-  //     expect(board.getSolution()).to.deep.equal(BoardFixture['9x9'].completed);
-  //   }).timeout(10000);
-  // });
-  //
-  // describe('#getSolutions', () => {
-  //   it('should be a Function', () => {
-  //     expect(Board.prototype.getSolutions).to.be.a('function');
-  //   });
-  //
-  //   it('should return all the solutions from the given board', () => {
-  //     let board = new Board(BoardFixture['9x9'].incompleted);
-  //     expect(board.getSolutions()).to.deep.equal([BoardFixture['9x9'].completed]);
-  //   }).timeout(10000);
-  // });
-  //
+  describe('#getSolution', () => {
+    it('should be a Function', () => {
+      expect(Board.prototype.getSolution).to.be.a('function');
+    });
+
+    it('should return a solution from the given board', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      expect(board.getSolution()).to.deep.equal(BoardFixture['9x9'].completed);
+    }).timeout(10000);
+  });
+
+  describe('#getSolutions', () => {
+    it('should be a Function', () => {
+      expect(Board.prototype.getSolutions).to.be.a('function');
+    });
+
+    it('should return all the solutions from the given board', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      expect(board.getSolutions()).to.deep.equal([BoardFixture['9x9'].completed]);
+    }).timeout(10000);
+  });
+
   describe('#nextMissing', () => {
     it('should be a Function', () => {
       expect(Board.prototype.nextMissing).to.be.a('function');
@@ -75,12 +75,14 @@ describe('Board', () => {
     });
 
     it('should return false when the board 9x9 is invalid', () => {
-      let board = new Board(BoardFixture['9x9'].invalid);
+      let board = new Board();
+      board.board = BoardFixture['9x9'].invalid;
       expect(board.isValid()).to.equal(false);
     });
 
     it('should return false when the board 16x16 is invalid', () => {
-      let board = new Board(BoardFixture['16x16'].invalid);
+      let board = new Board();
+      board.board = BoardFixture['16x16'].invalid;
       expect(board.isValid()).to.equal(false);
     });
   });
@@ -167,15 +169,15 @@ describe('Board', () => {
       let board = new Board();
       expect(board).to.be.an('object');
     });
-    //
-    // it('should return an exception when the board contains string as items', () => {
-    //   let fn = () => { new Board(BoardFixture['9x9'].invalid); };
-    //   expect(fn).to.throw('Board is invalid.');
-    // });
-    //
-    // it('should return an exception when the board contains elements out of range', () => {
-    //   let fn = () => { new Board(BoardFixture['16x16'].invalid); };
-    //   expect(fn).to.throw('Board is invalid.');
-    // });
+
+    it('should return an exception when the board 9x9 is invalid', () => {
+      let fn = () => { new Board(BoardFixture['9x9'].invalid); };
+      expect(fn).to.throw('Board is invalid.');
+    });
+
+    it('should return an exception when the board 16x16 is invalid', () => {
+      let fn = () => { new Board(BoardFixture['16x16'].invalid); };
+      expect(fn).to.throw('Board is invalid.');
+    });
   });
 });

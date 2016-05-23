@@ -38,13 +38,15 @@ describe('Position', () => {
     });
 
     it('should return false when the position on the board is out range', () => {
-      let board = new Board(BoardFixture['16x16'].invalid);
+      let board = new Board();
+      board.board = BoardFixture['16x16'].invalid;
       let position = new Position(7, 14, board);
       expect(position.isValid()).to.equal(false);
     });
 
     it('should return false when the position on the board is not a number', () => {
-      let board = new Board(BoardFixture['9x9'].invalid);
+      let board = new Board();
+      board.board = BoardFixture['9x9'].invalid;
       let position = new Position(3, 3, board);
       expect(position.isValid()).to.equal(false);
     });

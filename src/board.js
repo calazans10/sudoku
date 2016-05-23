@@ -2,6 +2,7 @@
 
 import Position from './position';
 import Region from './region';
+import InvalidBoardError from './errors/invalidBoardError';
 import permutation from './modules/permutation';
 import _ from 'lodash';
 
@@ -9,13 +10,13 @@ class Board {
   constructor(board = []) {
     this.board = board;
 
-    // if (this.board.length && !this.isValidBoard()) {
-    //   throw new InvalidBoardError('Board is invalid.');
-    // }
+    if (this.board.length && !this.isValid()) {
+      throw new InvalidBoardError('Board is invalid.');
+    }
   }
 
   getSolution() {
-    return this.solutions()[0];
+    return this.getSolutions()[0];
   }
 
   getSolutions(solutions = []) {
@@ -24,17 +25,18 @@ class Board {
       return;
     }
 
-    let position = this.nextMissing();
-    let availableNumbers = this.availableNumbers(position[0], position[1]);
+    let nextMissing = this.nextMissing();
+    let position = _.find(this.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
+    let availableNumbers = position.availableNumbers();
 
     if (availableNumbers.length == 0) {
       return;
     }
 
     for (let i = 0; i < availableNumbers.length; i++) {
-      let sudokuClone = _.clone(this);
-      sudokuClone.board[position[0]][position[1]] = availableNumbers[i];
-      sudokuClone.solutions(solutions);
+      let sudokuClone = _.cloneDeep(this);
+      sudokuClone.board[position.x][position.y] = availableNumbers[i];
+      sudokuClone.getSolutions(solutions);
     }
 
     return solutions;

@@ -8,3 +8,5 @@ class InvalidBoardError extends Error {
     this.stack = new Error().stack; // Optional
   }
 }
+
+export default InvalidBoardError;
