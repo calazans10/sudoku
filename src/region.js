@@ -1,6 +1,6 @@
 'use strict';
 
-import arrayIntersection from './modules/arrayIntersection';
+const arrayIntersection = require('./utils/arrayIntersection');
 
 class Region {
   constructor(positions, board) {
@@ -31,4 +31,4 @@ class Region {
   }
 }
 
-export default Region;
+module.exports = Region;

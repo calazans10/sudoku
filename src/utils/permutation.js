@@ -12,4 +12,4 @@ function permutation(i, j) {
   return permutation;
 }
 
-export default permutation;
+module.exports = permutation;

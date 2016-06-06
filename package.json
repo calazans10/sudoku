@@ -2,11 +2,22 @@
   "name": "sudoku",
   "version": "0.0.1",
   "description": "This is a demonstration repository",
-  "main": "index.js",
   "scripts": {
     "coverage": "babel-node node_modules/.bin/babel-istanbul cover _mocha -- --timeout 30000 test/**/*.spec.js",
     "test": "mocha --compilers js:babel-core/register test/**/*.spec.js",
     "watch": "mocha --watch --compilers js:babel-core/register test/**/*.spec.js"
+  },
+  "author": "Jeferson Farias Calazans <calazans10@gmail.com>",
+  "contributors": [
+    "Renan de Azevedo <renan.razevedo@gmail.com>"
+  ],
+  "license": "ISC",
+  "preferGlobal": true,
+  "bin": {
+    "sudoku": "./src/clients/cli.js"
+  },
+  "engines": {
+    "node": ">=4"
   },
   "devDependencies": {
     "babel-cli": "^6.7.7",
@@ -17,6 +28,7 @@
     "mocha": "^2.4.5"
   },
   "dependencies": {
+    "commander": "^2.9.0",
     "lodash": "^4.12.0"
   }
 }

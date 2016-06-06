@@ -9,4 +9,4 @@ class InvalidBoardError extends Error {
   }
 }
 
-export default InvalidBoardError;
+module.exports = InvalidBoardError;

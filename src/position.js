@@ -1,6 +1,6 @@
 'use strict';
 
-import arrayIntersection from './modules/arrayIntersection';
+const arrayIntersection = require('./utils/arrayIntersection');
 
 class Position {
   constructor(x, y, board) {
@@ -55,4 +55,4 @@ class Position {
   }
 }
 
-export default Position;
+module.exports = Position;

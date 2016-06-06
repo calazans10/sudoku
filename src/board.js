@@ -1,10 +1,10 @@
 'use strict';
 
-import Position from './position';
-import Region from './region';
-import InvalidBoardError from './errors/invalidBoardError';
-import permutation from './modules/permutation';
-import _ from 'lodash';
+const Position = require('./position');
+const Region = require('./region');
+const InvalidBoardError = require('./errors/invalidBoardError');
+const permutation = require('./utils/permutation');
+const _ = require('lodash');
 
 class Board {
   constructor(board = []) {
@@ -19,13 +19,57 @@ class Board {
     }
   }
 
+  static generate() {
+    let grid = [
+      _.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]),
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    let board = new Board(grid);
+
+    let solution = board.getSolution()
+      .map(line => line.map(position => Math.floor(Math.random() * 5) + 1 > 1 ? position : 0));
+
+    return new Board(solution);
+  }
+
   getSolution() {
-    return this.getSolutions()[0];
+    if (this.isCompleted()) {
+      return this.board;
+    }
+
+    let nextMissing = this.nextMissing();
+    let position = _.find(this.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
+    let availableNumbers = position.availableNumbers();
+
+    if (availableNumbers.length == 0) {
+      return;
+    }
+
+    for (let i = 0; i < availableNumbers.length; i++) {
+      let sudokuClone = _.cloneDeep(this);
+      sudokuClone.board[position.x][position.y] = availableNumbers[i];
+      let solution = sudokuClone.getSolution();
+
+      if (solution) {
+        return solution;
+      }
+    }
+
+    return undefined;
   }
 
   getSolutions(solutions = []) {
     if (this.isCompleted()) {
       solutions.push(this.board);
+      console.log(this.positions.map(position => position.value).join(', '));
       return;
     }
 
@@ -143,4 +187,4 @@ class Board {
   }
 }
 
-export default Board;
+module.exports = Board;
