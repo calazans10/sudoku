@@ -7,18 +7,15 @@ const Table = require('cli-table');
 
 function newSoduku() {
   let board = Board.generate();
-  let count = 0;
   let line = [];
   let table = new Table();
 
   for (let position of board.positions) {
-    if (count === board.board.length) {
+    line.push(position.value);
+
+    if (position.y === board.board.length - 1) {
       table.push(line);
       line = [];
-      count = 0;
-    } else {
-      line.push(position.value);
-      count++;
     }
   }
 
