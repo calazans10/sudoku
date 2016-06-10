@@ -6,10 +6,33 @@ const BoardFixture = require('./fixtures/boards');
 const chai = require('chai');
 const Position = require('../src/position');
 const Region = require('../src/region');
+const sinon = require('sinon');
 
 let expect = chai.expect;
 
 describe('Board', () => {
+  describe('#generate', () => {
+    it('should be a static Function', () => {
+      expect(Board).itself.to.respondTo('generate');
+    });
+
+    it('should return a new board', () => {
+      let board = new Board([
+        [2, 8, 3, 6, 1, 7, 5, 9, 4],
+        [1, 4, 5, 2, 3, 9, 6, 7, 8],
+        [6, 7, 9, 4, 5, 8, 1, 2, 3],
+        [3, 1, 2, 5, 4, 6, 7, 8, 9],
+        [4, 5, 7, 8, 9, 1, 2, 3, 6],
+        [8, 9, 6, 3, 7, 2, 4, 1, 5],
+        [5, 2, 1, 9, 6, 3, 8, 4, 7],
+        [7, 3, 4, 1, 8, 5, 9, 6, 2],
+        [9, 6, 8, 7, 2, 4, 3, 5, 1]
+      ]);
+      sinon.stub(Board, 'generate').returns(board);
+      expect(Board.generate()).to.equal(board);
+    });
+  });
+
   describe('#getSolution', () => {
     it('should be a Function', () => {
       expect(Board.prototype.getSolution).to.be.a('function');
@@ -128,8 +151,6 @@ describe('Board', () => {
       expect(board.isCompleted()).to.equal(false);
     });
   });
-
-
 
   describe('#isResolved', () => {
     it('should be a Function', () => {
