@@ -1,9 +1,9 @@
 'use strict';
 
-import Board from '../../src/board.js';
-import Position from '../../src/position.js';
-import Region from '../../src/region.js';
-import BoardFixture from './boards.js';
+const Board = require('../../src/board');
+const BoardFixture = require('./boards');
+const Position = require('../../src/position');
+const Region = require('../../src/region');
 
 let board = new Board(BoardFixture['9x9'].incompleted);
 
@@ -180,4 +180,4 @@ const ArrayFixture = {
   ]
 };
 
-export default ArrayFixture;
+module.exports = ArrayFixture;

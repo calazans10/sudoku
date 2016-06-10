@@ -1,11 +1,11 @@
 'use strict';
 
-import Board from '../src/board.js';
-import Position from '../src/position.js';
-import Region from '../src/region.js';
-import ArrayFixture from './fixtures/arrays.js';
-import BoardFixture from './fixtures/boards.js';
-import chai from 'chai';
+const ArrayFixture = require('./fixtures/arrays');
+const Board = require('../src/board');
+const BoardFixture = require('./fixtures/boards');
+const chai = require('chai');
+const Position = require('../src/position');
+const Region = require('../src/region');
 
 let expect = chai.expect;
 
@@ -126,6 +126,35 @@ describe('Board', () => {
     it('should return false when the board 16x16 is not completed', () => {
       let board = new Board(BoardFixture['16x16'].incompleted);
       expect(board.isCompleted()).to.equal(false);
+    });
+  });
+
+
+
+  describe('#isResolved', () => {
+    it('should be a Function', () => {
+      expect(Board.prototype.isResolved).to.be.a('function');
+    });
+
+    it('should return true when the board 9x9 is resolved', () => {
+      let board = new Board(BoardFixture['9x9'].completed);
+      expect(board.isResolved()).to.equal(true);
+    });
+
+    it('should return true when the board 16x16 is resolved', () => {
+      let board = new Board(BoardFixture['16x16'].completed);
+      expect(board.isResolved()).to.equal(true);
+    });
+
+    it('should return false when the board 9x9 is not resolved', () => {
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      expect(board.isResolved()).to.equal(false);
+    });
+
+    it('should return false when the board 16x16 is not resolved', () => {
+      let board = new Board();
+      board.board = BoardFixture['16x16'].invalid;
+      expect(board.isResolved()).to.equal(false);
     });
   });
 

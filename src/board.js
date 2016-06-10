@@ -1,10 +1,10 @@
 'use strict';
 
-const Position = require('./position');
-const Region = require('./region');
+const _ = require('lodash');
 const InvalidBoardError = require('./errors/invalidBoardError');
 const permutation = require('./utils/permutation');
-const _ = require('lodash');
+const Position = require('./position');
+const Region = require('./region');
 
 class Board {
   constructor(board = []) {
@@ -35,7 +35,7 @@ class Board {
     let board = new Board(grid);
 
     let solution = board.getSolution()
-      .map(line => line.map(position => Math.floor(Math.random() * 5) + 1 > 1 ? position : 0));
+      .map(line => line.map(position => Math.floor(Math.random() * 100) + 1 > 1 ? position : 0));
 
     return new Board(solution);
   }
@@ -69,7 +69,6 @@ class Board {
   getSolutions(solutions = []) {
     if (this.isCompleted()) {
       solutions.push(this.board);
-      console.log(this.positions.map(position => position.value).join(', '));
       return;
     }
 
@@ -121,6 +120,10 @@ class Board {
       }
     }
     return true;
+  }
+
+  isResolved() {
+    return this.isValid() && this.isCompleted();
   }
 
   get positions() {

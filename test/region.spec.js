@@ -1,10 +1,10 @@
 'use strict';
 
-import Board from '../src/board.js';
-import Position from '../src/position.js';
-import Region from '../src/region.js';
-import BoardFixture from './fixtures/boards.js';
-import chai from 'chai';
+const Board = require('../src/board');
+const BoardFixture = require('./fixtures/boards');
+const chai = require('chai');
+const Position = require('../src/position');
+const Region = require('../src/region');
 
 let expect = chai.expect;
 

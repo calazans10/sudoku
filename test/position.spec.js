@@ -1,9 +1,9 @@
 'use strict';
 
-import Board from '../src/board.js';
-import Position from '../src/position.js';
-import BoardFixture from './fixtures/boards.js';
-import chai from 'chai';
+const Board = require('../src/board');
+const BoardFixture = require('./fixtures/boards');
+const chai = require('chai');
+const Position = require('../src/position');
 
 let expect = chai.expect;
 
@@ -123,6 +123,13 @@ describe('Position', () => {
       let board = new Board(BoardFixture['16x16'].completed);
       let position = new Position(5, 10, board);
       expect(position.value).to.equal(16);
+    });
+
+    it('should set another value by the given position', () => {
+      let board = new Board(BoardFixture['16x16'].incompleted);
+      let position = new Position(0, 3, board);
+      position.value = 12;
+      expect(position.value).to.equal(12);
     });
   });
 

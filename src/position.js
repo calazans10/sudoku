@@ -53,6 +53,10 @@ class Position {
   get value() {
     return this.board.board[this.x][this.y];
   }
+
+  set value(newValue) {
+    this.board.board[this.x][this.y] = newValue;
+  }
 }
 
 module.exports = Position;

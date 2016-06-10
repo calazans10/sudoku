@@ -139,4 +139,4 @@ const BoardFixture = {
   }
 };
 
-export default BoardFixture;
+module.exports = BoardFixture;
