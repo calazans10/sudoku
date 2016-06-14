@@ -65,13 +65,13 @@ class Terminal {
       console.log('No hints found');
     } else {
       let position = _.find(this.board.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
-      console.log(`${position.x} ${position.y} ${position.availableNumbers()[0]}`);
+      console.log(`${position.x + 1} ${position.y + 1} ${position.availableNumbers()[0]}`);
     }
   }
 
   actionFill(values) {
     values = values.split(' ').map(num => parseInt(num));
-    let position = _.find(this.board.positions, {'x': values[0], 'y': values[1]});
+    let position = _.find(this.board.positions, {'x': values[0] - 1, 'y': values[1] - 1});
 
     if (!position) {
       console.log(chalk.red('Violation found. The given position doesn\'t exist'));
