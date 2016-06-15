@@ -4,6 +4,7 @@ const _ = require('lodash');
 const InvalidBoardError = require('./errors/invalidBoardError');
 const permutation = require('./utils/permutation');
 const Position = require('./position');
+const randomValue = require('./utils/randomValue');
 const Region = require('./region');
 
 class Board {
@@ -19,7 +20,7 @@ class Board {
     }
   }
 
-  static generate() {
+  static generate(difficulty) {
     let grid = [
       _.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]),
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -32,10 +33,23 @@ class Board {
       [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ];
 
+    return Board.initialize(grid, difficulty);
+  }
+
+  static initialize(grid, difficulty) {
     let board = new Board(grid);
+    let totalZeros;
+
+    if (difficulty === 'easy') {
+      totalZeros = 10;
+    } else if (difficulty === 'medium') {
+      totalZeros = 30;
+    } else {
+      totalZeros = 50;
+    }
 
     let solution = board.getSolution()
-      .map(line => line.map(position => Math.floor(Math.random() * 100) + 1 > 1 ? position : 0));
+      .map(line => line.map(position => randomValue() > totalZeros ? position : 0));
 
     return new Board(solution);
   }

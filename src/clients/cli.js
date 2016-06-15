@@ -4,12 +4,15 @@
 const _ = require('lodash');
 const Board = require('../board');
 const chalk = require('chalk');
+const Menu = require('terminal-menu');
 const prompt = require('prompt');
 const Table = require('cli-table');
 
-class Terminal {
-  constructor() {
-    this.board = Board.generate();
+
+class Sudoku {
+  constructor(difficulty) {
+    this.board = Board.generate(difficulty);
+    this.filled = [];
     this.displayMenu();
   }
 
@@ -17,7 +20,10 @@ class Terminal {
     let table = new Table();
 
     for (let line of this.board.lines) {
-      line = line.positions.map(position => position.value || ' ');
+      line = line.positions.map(position => {
+        let value = position.value || ' ';
+        return _.some(this.filled, position) ? chalk.green(value) : value;
+      });
       table.push(line);
     }
 
@@ -79,8 +85,40 @@ class Terminal {
       console.log(chalk.red(`Violation found. You can\'t use ${values[2]} there`));
     } else {
       position.value = values[2];
+      this.filled.push(position);
     }
   }
 }
 
-new Terminal();
+let menu = Menu({ width: 30, x: 1, y: 2 });
+let difficulty = '';
+
+menu.reset();
+menu.write('ESCOLA A DIFICULDADE DO SUDOKU\n');
+menu.write('------------------------------\n');
+
+menu.add('Fácil');
+menu.add('Médio');
+menu.add('Difícil');
+
+menu.on('select', function (label, index) {
+  menu.close();
+
+  if (index === 0) {
+    difficulty = 'easy';
+  } else if (index === 1) {
+    difficulty = 'medium';
+  } else {
+    difficulty = 'hard';
+  }
+
+  new Sudoku(difficulty);
+});
+
+process.stdin.pipe(menu.createStream()).pipe(process.stdout);
+
+process.stdin.setRawMode(true);
+menu.on('close', function () {
+  process.stdin.setRawMode(false);
+  process.stdin.end();
+});
