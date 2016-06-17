@@ -36,7 +36,7 @@ class Terminal {
     console.log(this.displayBoard());
 
     if (this.board.isResolved()) {
-      console.log(chalk.green('Congrats! You have completed your sudoku'));
+      console.log('> ' + chalk.green('Congrats! You have completed your sudoku'));
       process.exit(0);
     } else {
       this.askAction();
@@ -69,12 +69,12 @@ class Terminal {
     rl.prompt();
 
     rl.on('line', (line) => {
-      let value = line.trim();
+      let data = line.trim();
 
-      if (value === 'hint') {
-        this.actionHint(value);
-      } else if (value.split(' ').length === 3) {
-        this.actionFill(value);
+      if (data === 'hint') {
+        this.actionHint();
+      } else if (data.split(' ').length === 3) {
+        this.actionFill(data);
       } else {
         this.actionMissing();
       }
@@ -88,28 +88,29 @@ class Terminal {
   }
 
   actionMissing() {
-    console.log(chalk.red('> Try again'));
+    console.log('> ' + chalk.red('Try again'));
   }
 
   actionHint() {
     let nextMissing = this.board.nextMissing();
 
     if (!nextMissing) {
-      console.log('> No hints found');
+      console.log('> ' + chalk.yellow('No hints found'));
     } else {
       let position = _.find(this.board.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
-      console.log(`> ${position.x + 1} ${position.y + 1} ${position.availableNumbers()[0]}`);
+      let message = `${position.x + 1} ${position.y + 1} ${position.availableNumbers()[0]}`;
+      console.log('> ' + chalk.yellow(message));
     }
   }
 
-  actionFill(values) {
-    values = values.split(' ').map(num => parseInt(num));
+  actionFill(data) {
+    let values = data.split(' ').map(num => parseInt(num));
     let position = _.find(this.board.positions, {'x': values[0] - 1, 'y': values[1] - 1});
 
     if (!position) {
-      console.log(chalk.red('> Violation found. The given position doesn\'t exist'));
+      console.log('> ' + chalk.red('Violation found. The given position doesn\'t exist'));
     } else if (position.availableNumbers().indexOf(values[2]) === -1) {
-      console.log(chalk.red(`> Violation found. You can\'t use ${values[2]} there`));
+      console.log('> ' + chalk.red(`Violation found. You can\'t use ${values[2]} there`));
     } else {
       position.value = values[2];
       this._filledPositions.push(position);
