@@ -20,7 +20,7 @@ class Board {
     }
   }
 
-  static generate(difficulty) {
+  static generate(totalZeros) {
     let grid = [
       _.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]),
       [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -33,20 +33,7 @@ class Board {
       [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ];
 
-    return Board.initialize(grid, difficulty);
-  }
-
-  static initialize(grid, difficulty) {
     let board = new Board(grid);
-    let totalZeros;
-
-    if (difficulty === 'easy') {
-      totalZeros = 10;
-    } else if (difficulty === 'medium') {
-      totalZeros = 30;
-    } else {
-      totalZeros = 50;
-    }
 
     let solution = board.getSolution()
       .map(line => line.map(position => randomValue() > totalZeros ? position : 0));

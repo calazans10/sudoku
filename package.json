@@ -14,7 +14,7 @@
   "license": "ISC",
   "preferGlobal": true,
   "bin": {
-    "sudoku": "./src/clients/cli.js"
+    "sudoku": "./src/clients/terminal.js"
   },
   "engines": {
     "node": ">=4"
@@ -22,14 +22,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.3",
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.4"
+    "mocha": "^2.4.5"
   },
   "dependencies": {
     "chalk": "^1.1.3",
     "cli-table": "^0.3.1",
-    "lodash": "^4.12.0",
-    "prompt": "^1.0.0",
-    "terminal-menu": "^2.1.1"
+    "lodash": "^4.12.0"
   }
 }
