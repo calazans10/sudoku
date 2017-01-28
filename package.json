@@ -1,7 +1,7 @@
 {
   "name": "sudoku",
   "version": "0.1.0",
-  "description": "A Sudoku game with terminal",
+  "description": "A Sudoku game with terminal client",
   "scripts": {
     "coverage": "node node_modules/.bin/istanbul cover _mocha -- --timeout 30000 test/**/*.spec.js",
     "test": "mocha test/**/*.spec.js",
