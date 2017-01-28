@@ -1,7 +1,7 @@
 {
   "name": "sudoku",
-  "version": "0.0.1",
-  "description": "This is a demonstration repository",
+  "version": "0.1.0",
+  "description": "A Sudoku game with terminal",
   "scripts": {
     "coverage": "node node_modules/.bin/istanbul cover _mocha -- --timeout 30000 test/**/*.spec.js",
     "test": "mocha test/**/*.spec.js",
@@ -11,7 +11,7 @@
   "contributors": [
     "Renan de Azevedo <renan.razevedo@gmail.com>"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "preferGlobal": true,
   "bin": {
     "sudoku": "./src/clients/terminal.js"
