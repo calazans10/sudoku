@@ -2,31 +2,42 @@
   "name": "sudoku",
   "version": "0.1.0",
   "description": "A Sudoku game with terminal client",
-  "scripts": {
-    "coverage": "node node_modules/.bin/istanbul cover _mocha -- --timeout 30000 test/**/*.spec.js",
-    "test": "mocha test/**/*.spec.js",
-    "watch": "mocha --watch test/**/*.spec.js"
-  },
-  "author": "Jeferson Farias Calazans <calazans10@gmail.com>",
-  "contributors": [
-    "Renan de Azevedo <renan.razevedo@gmail.com>"
-  ],
   "license": "MIT",
-  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/calazans10/sudoku.git"
+  },
+  "author": {
+    "name": "Jeferson Farias Calazans",
+    "email": "calazans10@gmail.com",
+    "url": "calazans10.com"
+  },
+  "contributors": [
+    {
+      "name": "Renan de Azevedo",
+      "email": "renan.razevedo@gmail.com",
+      "url": "renandeazevedo.com"
+    }
+  ],
   "bin": {
     "sudoku": "./src/clients/terminal.js"
   },
   "engines": {
     "node": ">=4"
   },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+  "scripts": {
+    "coverage": "node node_modules/.bin/istanbul cover _mocha -- --timeout 30000 test/**/*.spec.js",
+    "test": "mocha test/**/*.spec.js",
+    "watch": "mocha --watch test/**/*.spec.js"
   },
   "dependencies": {
     "chalk": "^1.1.3",
     "cli-table": "^0.3.1",
     "lodash": "^4.12.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5"
   }
 }
