@@ -113,6 +113,8 @@ class Terminal {
 
     if (!position) {
       this.displayMessage(chalk.red('Violation found. The given position doesn\'t exist'));
+    } else if (this.board.isProtectedPosition(values[0] -1, values[1] - 1)){
+      this.displayMessage(chalk.red(`Violation found. You can\'t overwrite this number`));
     } else if (position.availableNumbers().indexOf(values[2]) === -1) {
       this.displayMessage(chalk.red(`Violation found. You can\'t use ${values[2]} there`));
     } else {
