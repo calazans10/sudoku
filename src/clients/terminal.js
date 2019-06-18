@@ -77,6 +77,8 @@ class Terminal {
 
       if (data === 'hint') {
         this.actionHint();
+      } else if (data.split(' ')[0] === 'delete'){
+        this.actionDelete(data);
       } else if (data.split(' ').length === 3) {
         this.actionFill(data);
       } else {
@@ -104,6 +106,21 @@ class Terminal {
       let position = _.find(this.board.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
       let message = `${position.x + 1} ${position.y + 1} ${position.availableNumbers()[0]}`;
       this.displayMessage(chalk.yellow(message));
+    }
+  }
+
+  actionDelete(data){
+    let valueX = data.split(' ')[1] - 1;
+    let valueY = data.split(' ')[2] - 1;
+    let position = _.find(this.board.positions, {'x': valueX, 'y': valueY});
+
+    if(!position){
+      this.displayMessage(chalk.red('Violation found. The given position doesn\'t exist'));
+    } else if (this.board.isProtectedPosition(valueX,valueY)){
+      this.displayMessage(chalk.red(`Violation found. You can\'t delete this number`))
+    } else {
+      position.value = 0;
+      this._filledPositions.pop(position);
     }
   }
 
