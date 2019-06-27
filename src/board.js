@@ -10,6 +10,7 @@ const Region = require('./region');
 class Board {
   constructor(board = []) {
     this.board = board;
+    this.originalBoard = _.cloneDeep(board);
 
     if (this.board.length && !this.isQuadratic()) {
       throw new InvalidBoardError('Board is not quadratic.');
@@ -126,6 +127,10 @@ class Board {
   isResolved() {
     return this.isValid() && this.isCompleted();
   }
+
+  isProtectedPosition(valueX, valueY) {
+    return (this.originalBoard[valueX][valueY] !== 0);
+  }  
 
   get positions() {
     return permutation(this.board.length - 1, this.board.length - 1)

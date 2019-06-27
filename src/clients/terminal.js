@@ -77,6 +77,8 @@ class Terminal {
 
       if (data === 'hint') {
         this.actionHint();
+      } else if (data.split(' ')[0] === 'delete'){
+        this.actionDelete(data);
       } else if (data.split(' ').length === 3) {
         this.actionFill(data);
       } else {
@@ -107,12 +109,29 @@ class Terminal {
     }
   }
 
+  actionDelete(data){
+    let valueX = data.split(' ')[1] - 1;
+    let valueY = data.split(' ')[2] - 1;
+    let position = _.find(this.board.positions, {'x': valueX, 'y': valueY});
+
+    if(!position){
+      this.displayMessage(chalk.red('Violation found. The given position doesn\'t exist'));
+    } else if (this.board.isProtectedPosition(valueX,valueY)){
+      this.displayMessage(chalk.red(`Violation found. You can\'t delete this number`))
+    } else {
+      position.value = 0;
+      this._filledPositions.pop(position);
+    }
+  }
+
   actionFill(data) {
     let values = data.split(' ').map(num => parseInt(num));
     let position = _.find(this.board.positions, {'x': values[0] - 1, 'y': values[1] - 1});
 
     if (!position) {
       this.displayMessage(chalk.red('Violation found. The given position doesn\'t exist'));
+    } else if (this.board.isProtectedPosition(values[0] -1, values[1] - 1)){
+      this.displayMessage(chalk.red(`Violation found. You can\'t overwrite this number`));
     } else if (position.availableNumbers().indexOf(values[2]) === -1) {
       this.displayMessage(chalk.red(`Violation found. You can\'t use ${values[2]} there`));
     } else {
