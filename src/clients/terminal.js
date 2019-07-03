@@ -30,6 +30,8 @@ class Terminal {
 
   displayMenu() {
     if (!this.board) {
+      console.log(chalk.green('~*~*~*~*~*~*~*~ Welcome to Sudoku! ~*~*~*~*~*~*~*~'));
+      this.actionHelp();
       return this.askDifficulty();
     }
 
@@ -52,7 +54,7 @@ class Terminal {
     let options = `${chalk.green('easy')} | ${chalk.yellow('normal')} | ${chalk.red('hard')}`;
     let difficulties = {'easy': 10, 'normal': 30, 'hard': 50};
 
-    console.log(`Select Difficulty [${options}]`);
+    console.log(`Select a difficulty to start: [${options}]`);
     rl.setPrompt('> ');
     rl.prompt();
 
