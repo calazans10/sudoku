@@ -77,6 +77,8 @@ class Terminal {
 
       if (data === 'hint') {
         this.actionHint();
+      } else if (data === 'help'){
+        this.actionHelp();
       } else if (data.split(' ')[0] === 'delete'){
         this.actionDelete(data);
       } else if (data.split(' ').length === 3) {
@@ -94,7 +96,7 @@ class Terminal {
   }
 
   actionMissing() {
-    this.displayMessage(chalk.red('Try again'));
+    this.displayMessage(chalk.red(`Try again, or enter 'help' for instructions.`));
   }
 
   actionHint() {
@@ -107,6 +109,24 @@ class Terminal {
       let message = `${position.x + 1} ${position.y + 1} ${position.availableNumbers()[0]}`;
       this.displayMessage(chalk.yellow(message));
     }
+  }
+
+  actionHelp(){
+    this.displayMessage(`
+    INSTRUCTIONS:
+
+    * To insert a number in the board, enter the number 
+      and the coordinates of the chosen cell, in the 
+      following format: ${chalk.green('X Y Z')}, where:
+        ${chalk.green('X')}: The number of row (from up to down).
+        ${chalk.green('Y')}: The number of column (from left to right).
+        ${chalk.green('Z')}: The number you wish to insert.
+    
+    * To delete a number, enter ${chalk.red(`delete`)} ${chalk.red('X Y')},
+      where X Y are the coodinates of the number you wish to delete. 
+    
+    * To get a hint, enter ${chalk.yellow(`hint`)}.
+    `);
   }
 
   actionDelete(data){
