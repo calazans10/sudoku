@@ -21,6 +21,7 @@ Thumbs.db
 
 # Coverage output folder.
 coverage/
+.nyc_output/
 
 # NPM packages folder.
 node_modules/

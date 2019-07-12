@@ -1,9 +1,9 @@
 'use strict';
 
-const Board = require('../src/board');
-const BoardFixture = require('./fixtures/boards');
 const chai = require('chai');
+const Board = require('../src/board');
 const Position = require('../src/position');
+const BoardFixture = require('./fixtures/boards');
 
 let expect = chai.expect;
 
@@ -54,20 +54,20 @@ describe('Position', () => {
 
   describe('#related', () => {
     it('should return the related by the given position', () => {
-    let board = new Board(BoardFixture['9x9'].incompleted);
-    let position = new Position(3, 4, board);
-    let result = [
-      new Position(3, 0, board), new Position(3, 1, board), new Position(3, 2, board),
-      new Position(3, 3, board), new Position(3, 4, board), new Position(3, 5, board),
-      new Position(3, 6, board), new Position(3, 7, board), new Position(3, 8, board),
-      new Position(0, 4, board), new Position(1, 4, board), new Position(2, 4, board),
-      new Position(3, 4, board), new Position(4, 4, board), new Position(5, 4, board),
-      new Position(6, 4, board), new Position(7, 4, board), new Position(8, 4, board),
-      new Position(3, 3, board), new Position(3, 4, board), new Position(3, 5, board),
-      new Position(4, 3, board), new Position(4, 4, board), new Position(4, 5, board),
-      new Position(5, 3, board), new Position(5, 4, board), new Position(5, 5, board)
-    ];
-    expect(position.related).to.deep.equal(result);
+      let board = new Board(BoardFixture['9x9'].incompleted);
+      let position = new Position(3, 4, board);
+      let result = [
+        new Position(3, 0, board), new Position(3, 1, board), new Position(3, 2, board),
+        new Position(3, 3, board), new Position(3, 4, board), new Position(3, 5, board),
+        new Position(3, 6, board), new Position(3, 7, board), new Position(3, 8, board),
+        new Position(0, 4, board), new Position(1, 4, board), new Position(2, 4, board),
+        new Position(3, 4, board), new Position(4, 4, board), new Position(5, 4, board),
+        new Position(6, 4, board), new Position(7, 4, board), new Position(8, 4, board),
+        new Position(3, 3, board), new Position(3, 4, board), new Position(3, 5, board),
+        new Position(4, 3, board), new Position(4, 4, board), new Position(4, 5, board),
+        new Position(5, 3, board), new Position(5, 4, board), new Position(5, 5, board)
+      ];
+      expect(position.related).to.deep.equal(result);
     });
   });
 

@@ -1,11 +1,11 @@
 'use strict';
 
 const _ = require('lodash');
+const Position = require('./position');
+const Region = require('./region');
 const InvalidBoardError = require('./errors/invalidBoardError');
 const permutation = require('./utils/permutation');
-const Position = require('./position');
 const randomValue = require('./utils/randomValue');
-const Region = require('./region');
 
 class Board {
   constructor(board = []) {
@@ -48,7 +48,7 @@ class Board {
     }
 
     let nextMissing = this.nextMissing();
-    let position = _.find(this.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
+    let position = _.find(this.positions, { 'x': nextMissing[0], 'y': nextMissing[1] });
     let availableNumbers = position.availableNumbers();
 
     if (availableNumbers.length == 0) {
@@ -75,7 +75,7 @@ class Board {
     }
 
     let nextMissing = this.nextMissing();
-    let position = _.find(this.positions, {'x': nextMissing[0], 'y': nextMissing[1]});
+    let position = _.find(this.positions, { 'x': nextMissing[0], 'y': nextMissing[1] });
     let availableNumbers = position.availableNumbers();
 
     if (availableNumbers.length == 0) {
@@ -130,7 +130,7 @@ class Board {
 
   isProtectedPosition(valueX, valueY) {
     return (this.originalBoard[valueX][valueY] !== 0);
-  }  
+  }
 
   get positions() {
     return permutation(this.board.length - 1, this.board.length - 1)

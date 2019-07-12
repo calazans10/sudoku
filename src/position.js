@@ -42,7 +42,7 @@ class Position {
     return this.board.squares[index].positions;
   }
 
-  get relatedPivot()     {
+  get relatedPivot() {
     return new Position(
       this.x - (this.x % this.board.squareRoot),
       this.y - (this.y % this.board.squareRoot),
