@@ -1,10 +1,10 @@
 'use strict';
 
-const Board = require('../src/board');
-const BoardFixture = require('./fixtures/boards');
 const chai = require('chai');
+const Board = require('../src/board');
 const Position = require('../src/position');
 const Region = require('../src/region');
+const BoardFixture = require('./fixtures/boards');
 
 let expect = chai.expect;
 
