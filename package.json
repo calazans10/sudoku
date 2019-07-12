@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "description": "A Sudoku game with terminal client",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/calazans10/sudoku.git"
-  },
+  "repository": "calazans10/sudoku",
   "author": {
     "name": "Jeferson Farias Calazans",
     "email": "calazans10@gmail.com",
@@ -19,11 +16,15 @@
       "url": "renandeazevedo.com"
     }
   ],
+  "engines": {
+    "node": ">=6"
+  },
+  "bugs": {
+    "url": "https://github.com/calazans10/sudoku/issues"
+  },
+  "homepage": "https://github.com/calazans10/sudoku#readme",
   "bin": {
     "sudoku": "./src/clients/terminal.js"
-  },
-  "engines": {
-    "node": ">=4"
   },
   "scripts": {
     "coverage": "nyc --reporter=html --timeout=30000 npm test",
