@@ -26,18 +26,19 @@
     "node": ">=4"
   },
   "scripts": {
-    "coverage": "node node_modules/.bin/istanbul cover _mocha -- --timeout 30000 test/**/*.spec.js",
+    "coverage": "nyc --reporter=html --timeout=30000 npm test",
     "test": "mocha test/**/*.spec.js",
     "watch": "mocha --watch test/**/*.spec.js"
   },
   "dependencies": {
-    "chalk": "^1.1.3",
+    "chalk": "^2.4.2",
     "cli-table": "^0.3.1",
-    "lodash": "^4.12.0"
+    "lodash": "^4.17.14"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "chai": "^4.2.0",
+    "eslint": "^6.0.1",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
   }
 }
