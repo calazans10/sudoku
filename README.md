@@ -1,5 +1,5 @@
 # Sudoku
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 
 A simple sudoku game for your terminal
 
@@ -46,6 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/CamilaSosa96"><img src="https://avatars2.githubusercontent.com/u/37719855?v=4" width="100px;" alt="CamilaSosa96"/><br /><sub><b>CamilaSosa96</b></sub></a><br /><a href="https://github.com/calazans10/sudoku/commits?author=CamilaSosa96" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/renanra"><img src="https://avatars0.githubusercontent.com/u/130647?v=4" width="100px;" alt="Renan de Azevedo"/><br /><sub><b>Renan de Azevedo</b></sub></a><br /><a href="https://github.com/calazans10/sudoku/commits?author=renanra" title="Code">💻</a></td>
   </tr>
 </table>
 
