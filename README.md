@@ -33,10 +33,6 @@ You will be asked to select a difficulty, and then the game will start!
 4. Push to the branch (`git push origin my-new-feature`)
 5. Submit a pull request
 
-## License
-
-MIT © [Jeferson Farias Calazans](http://calazans10.com)
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -53,3 +49,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## License
+
+MIT © [Jeferson Farias Calazans](http://calazans10.com)
