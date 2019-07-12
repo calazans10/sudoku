@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/calazans10/sudoku#readme",
   "bin": {
-    "sudoku": "./src/clients/terminal.js"
+    "sudoku": "src/clients/terminal.js"
   },
   "scripts": {
     "coverage": "nyc --reporter=html --timeout=30000 npm test",
