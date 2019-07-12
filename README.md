@@ -4,11 +4,12 @@ A simple sudoku game for your terminal
 
 ## Usage
 
-You will need [Node.js](https://nodejs.org/en/) in order to play, you will also need 
-to install the dependencies with the following command:
+You will need [Node.js](https://nodejs.org) in order to play, you will also need to install the following modules with these commands:
 
 ```
-npm install
+npm install lodash
+npm install chalk
+npm install cli-table
 ```
 
 Download the project, then go to the 'sudoku' folder from your terminal.
